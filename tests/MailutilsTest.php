@@ -5,7 +5,6 @@ use ND\MailUtils\MailUtils;
 use ND\MailUtils\InvalidEmailException;
 
 class MailutilsTest extends TestCase {
-
     public function testCreateInstance() {
         $instance = MailUtils::address("nicolas@damiens.info");
         $this->assertInstanceOf(\ND\MailUtils\Address::class, $instance);
@@ -49,14 +48,18 @@ class MailutilsTest extends TestCase {
     }
 
     public function testHasMx() {
-        $this->assertTrue(MailUtils::hasMX(MaiLUtils::address("nicolas@damiens.info")));
-        $this->assertFalse(MailUtils::hasMX(MaiLUtils::address("nicolas@mail.damiens.info", false)));
-        $this->assertFalse(MailUtils::hasMX(MaiLUtils::address("nicolas@unknown.damiens.info", false)));
+        $this->assertTrue(MailUtils::hasMX(MailUtils::address("nicolas@damiens.info")));
+        $this->assertFalse(MailUtils::hasMX(MailUtils::address("nicolas@mail.damiens.info", false)));
+        $this->assertFalse(MailUtils::hasMX(MailUtils::address("nicolas@unknown.damiens.info", false)));
     }
 
     public function testHasA() {
-        $this->assertTrue(MailUtils::hasA(MaiLUtils::address("nicolas@damiens.info")));
-        $this->assertFalse(MailUtils::hasA(MaiLUtils::address("nicolas@unknown.damiens.info", false)));
+        $this->assertTrue(MailUtils::hasA(MailUtils::address("nicolas@damiens.info")));
+        $this->assertFalse(MailUtils::hasA(MailUtils::address("nicolas@unknown.damiens.info", false)));
+    }
+
+    public function testMxOnly() {
+        $this->assertTrue(MailUtils::hasMX(MailUtils::address("plop@ida.upmc.fr")));
     }
 
 }
