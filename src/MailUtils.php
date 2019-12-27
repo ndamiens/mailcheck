@@ -31,7 +31,7 @@ class MailUtils {
 
         if ($doDnsChecks) {
             // has dns records
-            if (!self::hasMX($address) || !self::hasA($address)) {
+            if (!(self::hasMX($address) || self::hasA($address))) {
                 throw new InvalidEmailException("no dns record for domain", InvalidEmailException::DNSRECORDS);
             }
         }
