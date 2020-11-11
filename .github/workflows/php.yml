@@ -21,3 +21,5 @@ jobs:
 
     - name: Run test suite
       run: vendor/bin/phpunit
+    - name: Run static analysis
+      run: vendor/bin/phpstan analyse --error-format=github src --level=6 --no-ansi
