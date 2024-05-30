@@ -62,4 +62,9 @@ class MailutilsTest extends TestCase {
         $this->assertTrue(MailUtils::hasMX(MailUtils::address("plop@ida.upmc.fr")));
     }
 
+    public function testGDPR() {
+        $addr = MailUtils::address("nicolas@damiens.info");
+        $this->assertEquals("ni***as@damiens.info", $addr->getGDPRAddress());
+    }
+
 }

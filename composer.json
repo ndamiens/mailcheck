@@ -6,15 +6,13 @@
     "autoload": {
         "psr-4": { "ND\\MailUtils\\": "src/" }
     },
-    "authors": [
-        {
-            "name": "Nicolas Damiens",
-            "email": "nicolas@damiens.info"
-        }
-    ],
+    "authors": [{
+        "name": "Nicolas Damiens",
+        "email": "nicolas@damiens.info"
+    }],
     "require": {},
     "require-dev": {
         "phpunit/phpunit": "^8.5",
-        "phpstan/phpstan": "^0.12.54"
+        "phpstan/phpstan": "^1.8"
     }
 }
