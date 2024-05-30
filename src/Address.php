@@ -52,7 +52,7 @@ class Address
         return $this->localPart . "@" . $this->domain;
     }
 
-    public function getGDPRAddress()
+    public function getGDPRAddress(): string
     {
         $len = mb_strlen($this->localPart);
         if ($len <= 2) {

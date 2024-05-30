@@ -2,13 +2,10 @@
 
 namespace ND\MailUtils;
 
-class MailUtils {
-
-    /**
-     * @param string $address
-     * @return string
-     */
-    public static function normalize(string $address) {
+class MailUtils
+{
+    public static function normalize(string $address): string
+    {
         return trim(strtolower($address));
     }
 
@@ -18,7 +15,8 @@ class MailUtils {
      * @return Address
      * @throws InvalidEmailException
      */
-    public static function address(string $original_address_string, bool $doDnsChecks = true) {
+    public static function address(string $original_address_string, bool $doDnsChecks = true): Address
+    {
         $address_string = self::normalize($original_address_string);
         if (filter_var($address_string, FILTER_VALIDATE_EMAIL) !== $address_string) {
             throw new InvalidEmailException("syntax", InvalidEmailException::SYNTAX);
@@ -48,20 +46,13 @@ class MailUtils {
         return $address;
     }
 
-    /**
-     * @param Address $address
-     * @return bool
-     */
-    public static function hasMX(Address $address) {
+    public static function hasMX(Address $address): bool
+    {
         return checkdnsrr($address->getDomain(), "MX");
     }
 
-    /**
-     * @param Address $address
-     * @return bool
-     */
-    public static function hasA(Address $address) {
+    public static function hasA(Address $address): bool
+    {
         return checkdnsrr($address->getDomain(), "A");
     }
-
 }
