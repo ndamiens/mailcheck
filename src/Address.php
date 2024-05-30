@@ -2,18 +2,18 @@
 
 namespace ND\MailUtils;
 
-class Address {
+class Address
+{
 
-    /** @var string */
-    private $localPart;
+    private string $localPart;
 
-    /** @var string */
-    private $domain;
+    private string $domain;
 
     /**
      *  @return $this
      */
-    public function setLocalPart(string $localPart) {
+    public function setLocalPart(string $localPart): self
+    {
         $this->localPart = $localPart;
         return $this;
     }
@@ -21,7 +21,8 @@ class Address {
     /**
      * @return string
      */
-    public function getLocalPart() {
+    public function getLocalPart(): string
+    {
         return $this->localPart;
     }
 
@@ -29,7 +30,8 @@ class Address {
      * @param string $domain
      * @return $this
      */
-    public function setDomain(string $domain) {
+    public function setDomain(string $domain): self
+    {
         $this->domain = $domain;
         return $this;
     }
@@ -37,15 +39,27 @@ class Address {
     /**
      * @return string
      */
-    public function getDomain() {
+    public function getDomain(): string
+    {
         return $this->domain;
     }
 
     /**
      * @return string
      */
-    public function getAddress() {
+    public function getAddress(): string
+    {
         return $this->localPart . "@" . $this->domain;
     }
 
+    public function getGDPRAddress()
+    {
+        $len = mb_strlen($this->localPart);
+        if ($len <= 2) {
+            return "******";
+        } elseif ($len <= 4) {
+            return substr($this->localPart, 0, 2) . "****";
+        }
+        return substr($this->localPart, 0, 2) . str_repeat("*", $len - 4) . substr($this->localPart, -2, 2) . '@' . $this->domain;
+    }
 }
