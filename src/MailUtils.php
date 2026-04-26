@@ -92,10 +92,8 @@ class MailUtils
                 if ($char === "0") {
                     $char = "00";
                 }
-                if (!is_array($treeItem)) {
-                    throw new \Exception("Invalid tree item");
-                }
-                if (array_search($char, array_keys($treeItem)) === false) {
+                /** @phpstan-ignore-next-line non falsy value */
+                if (!array_key_exists($char, $treeItem)) {
                     $treeItem["$char"] = [];
                     $treeItem = &$treeItem["$char"];
                 } else {
