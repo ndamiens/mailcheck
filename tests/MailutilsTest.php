@@ -22,16 +22,22 @@ class MailutilsTest extends TestCase {
 
     public function testInvalidDomains() {
         $domains = [
-            'nicolas.example', 'nicolas.invalid',
-            'example.com', 'example.net',
-            'example.org'
+            'nicolas.example' => InvalidEmailException::SYNTAX,
+            'nicolas.invalid' => InvalidEmailException::SYNTAX,
+            'example.com' => InvalidEmailException::SYNTAX,
+            'example.net' => InvalidEmailException::SYNTAX,
+            'example.org' => InvalidEmailException::SYNTAX,
+            'coffeejadore.com' => InvalidEmailException::DISPOSABLE,
+            'caramail.pro' => InvalidEmailException::DISPOSABLE,
+            'unknown.damiens.info' => InvalidEmailException::DNSRECORDS,
+            'no-mx-no-a.damiens.info' => InvalidEmailException::DNSRECORDS,
         ];
-        foreach ($domains as $domain) {
+        foreach ($domains as $domain => $expectedExceptionCode) {
             $excepted = false;
             try {
-                MailUtils::address("nicolas@$domain", false);
+                MailUtils::address("nicolas@$domain", doDnsChecks: true, checkDisposable: true);
             } catch (InvalidEmailException $ex) {
-                $this->assertEquals(InvalidEmailException::SYNTAX, $ex->getCode());
+                $this->assertEquals($expectedExceptionCode, $ex->getCode());
                 $excepted = true;
             }
             $this->assertTrue($excepted, "nicolas@$domain didn't raise exception", "domain $domain");
