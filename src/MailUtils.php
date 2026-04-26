@@ -65,6 +65,13 @@ class MailUtils
         return checkdnsrr($address->getDomain(), "A");
     }
 
+    /**
+     * Build the index for the disposable email block list
+     * @param string $filename
+     * @param bool $cache
+     * @return array<string,array<string,string>|null>
+     * @throws \Exception
+     */
     private static function buildIndex(string $filename, bool $cache = true): ?array
     {
         $cacheFilename = sys_get_temp_dir() . "/mailcheck_index_" . md5($filename) . ".bin";
@@ -85,7 +92,7 @@ class MailUtils
                 if ($char === "0") {
                     $char = "00";
                 }
-                if (!isset($treeItem["$char"])) {
+                if ((!array_search($char, array_keys($treeItem)) === false)) {
                     $treeItem["$char"] = [];
                     $treeItem = &$treeItem["$char"];
                 } else {
@@ -101,7 +108,7 @@ class MailUtils
 
     private static function searchIndex(string $indexFilename, string $domain, bool $cache = true): ?bool
     {
-        $wt = static::buildIndex($indexFilename, $cache);
+        $wt = self::buildIndex($indexFilename, $cache);
         if ($wt === null) {
             return null;
         }
@@ -130,6 +137,6 @@ class MailUtils
      */
     public static function isDisposable(Address $address, bool $cache = true): ?bool
     {
-        return static::searchIndex(__DIR__ . "/disposable_email_blocklist.conf", $address->getDomain(), $cache);
+        return self::searchIndex(__DIR__ . "/disposable_email_blocklist.conf", $address->getDomain(), $cache);
     }
 }
