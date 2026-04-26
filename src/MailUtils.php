@@ -95,7 +95,7 @@ class MailUtils
                 if (!is_array($treeItem)) {
                     throw new \Exception("Invalid tree item");
                 }
-                if ((!array_search($char, array_keys($treeItem)) === false)) {
+                if (array_search($char, array_keys($treeItem)) === false) {
                     $treeItem["$char"] = [];
                     $treeItem = &$treeItem["$char"];
                 } else {
